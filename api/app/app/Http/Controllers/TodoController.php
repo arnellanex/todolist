@@ -23,18 +23,18 @@ class TodoController extends Controller
         $todo->completed = $request->input('completed');
         $todo->save();
 
-        return response()->json($todo);
+        return $this->respond($todo);
     }
 
     public function deleteTodo($id) {
         $todo = Todo::find($id);
         $todo->delete();
 
-        return response()->json($todo);
+        return $this->respond($todo);
     }
 
     public function index() {
-        $todos = Todo::all();
+        $todos = Todo::latest('created_at')->get();
 
         return response()->json($todos);
     }

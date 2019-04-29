@@ -21,5 +21,5 @@ $router->group(['prefix' => 'api/v1'], function($router)
   $router->put('todo/{id}','TodoController@updateTodo');
     
   $router->delete('todo/{id}','TodoController@deleteTodo');
-  $router->get('todo','TodoController@index');
+  $router->get('todos','TodoController@index');
 });

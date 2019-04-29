@@ -1,6 +1,6 @@
 <template>
   <div class='ui basic content center aligned segment'>
-    <button class='ui basic button icon' v-on:click="openForm" v-show="!isCreating">
+    <button class='ui basic button icon' @click="openForm" v-show="!isCreating">
       <i class='plus icon'></i>
     </button>
     <div class='ui centered card' v-show="isCreating">
@@ -8,13 +8,13 @@
         <div class='ui form'>
           <div class='field'>
             <label>Title</label>
-            <input v-model="titleText" type='text' ref='title' defaultValue="">
+            <input v-model="newTodo.title" type='text' ref='title' defaultValue="">
           </div>
           <div class='ui two button attached buttons'>
-            <button class='ui basic blue button' v-on:click="sendForm()">
+            <button class='ui basic blue button' @click="addTodo()">
               Create
             </button>
-            <button class='ui basic red button' v-on:click="closeForm">
+            <button class='ui basic red button' @click="closeForm">
               Cancel
             </button>
           </div>
@@ -25,10 +25,11 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   data() {
     return {
-      titleText: '',
       isCreating: false,
     };
   },
@@ -39,17 +40,12 @@ export default {
     closeForm() {
       this.isCreating = false;
     },
-    sendForm() {
-      if (this.titleText.length > 0) {
-        const title = this.titleText;
-        this.$emit('add-todo', {
-          title,
-          completed: false,
-        });
-        this.newTodoText = '';
-      }
-      this.isCreating = false;
+    addTodo() {
+      this.$store.dispatch("ADD_TODO", this.newTodo);
     },
   },
+  computed: {
+    ...mapGetters(["newTodo"])
+  }
 };
 </script>
